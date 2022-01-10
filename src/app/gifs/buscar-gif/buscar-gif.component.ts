@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { GifsService } from '../services/gifs.service';
 
 @Component({
   selector: 'app-buscar-gif',
@@ -9,10 +10,15 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 export class BuscarGifComponent {
 
   @ViewChild('txtBuscar') txtBuscar!:ElementRef<HTMLInputElement>;
+  
+  constructor(private gifsService:GifsService){};
 
   buscar = () =>{
+    if (this.txtBuscar.nativeElement.value.trim().length <= 1) {
+      return; //? pregunto si escribe algo mayor a 1 caracter
+    }
     const {value} = this.txtBuscar.nativeElement;
-    console.log(value);
+    this.gifsService.buscarGif(value);
     this.txtBuscar.nativeElement.value = '';
   };
 
